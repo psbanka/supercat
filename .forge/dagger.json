@@ -1,0 +1,20 @@
+{
+  "name": "ScoreServer",
+  "sdk": "typescript",
+  "dependencies": [
+    {
+      "name": "docker",
+      "source": "ssh://github.com/fastly/forge/dagger-modules/standard/docker@0a734abc23ac78c83a28f0242de8783bf02f10f6"
+    },
+    {
+      "name": "golang",
+      "source": "ssh://github.com/fastly/forge/dagger-modules/standard/golang@0a734abc23ac78c83a28f0242de8783bf02f10f6"
+    },
+    {
+      "name": "local-git",
+      "source": "ssh://github.com/fastly/forge/dagger-modules/standard/local-git@0a734abc23ac78c83a28f0242de8783bf02f10f6"
+    }
+  ],
+  "source": ".",
+  "engineVersion": "v0.13.5"
+}

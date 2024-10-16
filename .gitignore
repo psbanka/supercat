@@ -1,0 +1,5 @@
+# Ignore Visual Studio Code workspace settings
+.vscode/
+
+# Ignore IntelliJ IDEA project settings
+.idea/

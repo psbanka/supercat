@@ -1,0 +1,46 @@
+name: Forge
+permissions:
+  id-token: write # Permission required for requesting the JWT
+  contents: read  # Permission required for actions/checkout
+
+# Step 19:
+#   Here's our complete GitHub Actions Workflow - we're simply calling our Dagger action
+#   and passing in the same verbs, module and args that we have been using on the CLI 
+#
+#   Let's run our completed pipeline in CI:
+#     git checkout -b tech-summit-workshop
+#     git add config.yaml
+#     git commit -am "ci: dagger 101 workshop"
+#     git push origin tech-summit-workshop
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  docker:
+    runs-on: fastly-workshop
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+    
+      - name: Retrieve JWT token
+        uses: fastly/forge/actions/github-oidc@actions-v0
+        id: oidc
+
+      - name: Build and publish score-server
+        uses: fastly/forge/actions/dagger@actions-v0
+        env:
+          JWT_TOKEN: ${{ steps.oidc.outputs.jwt-token }}
+        with:
+          verb: call
+          module: .forge
+          args: docker --token env:JWT_TOKEN
+
+# Step 20:
+#   Merge your PR (you won't get a Shiply violation!)
+#
+#   Your artifact will be published to the `fastly` namespace in Harbor:
+#     https://container-registry.secretcdn.net/harbor/projects/2/repositories/score-server/artifacts-tab
